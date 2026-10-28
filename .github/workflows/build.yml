@@ -1,0 +1,39 @@
+name: Build Firmware
+
+on:
+  push:
+    branches: [ pr-131 ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc git wget make libncurses-dev flex bison gperf python3 python3-pip python3-setuptools python3-serial python3-cryptography python3-future python3-pyparsing python3-pyelftools
+
+      - name: Download ESP32 Toolchain
+        run: |
+          wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4436f-5.2.0.tar.gz
+          tar -xzf xtensa-esp32-elf-linux64-1.22.0-80-g6c4436f-5.2.0.tar.gz
+
+      - name: Clone ESP-IDF v3.3
+        run: |
+          git clone --branch v3.3 --recursive https://github.com/espressif/esp-idf.git
+
+      - name: Build Firmware
+        run: |
+          export PATH=$PATH:$(pwd)/xtensa-esp32-elf/bin
+          export IDF_PATH=$(pwd)/esp-idf
+          make
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NINA_W102_Firmware
+          path: build/NINA_W102.bin
