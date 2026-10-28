@@ -1,0 +1,22 @@
+name: Build Firmware
+
+on:
+  push:
+    branches: [ pr-131 ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Firmware with Make
+        run: make
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NINA_W102_Firmware
+          path: build/NINA_W102.bin
