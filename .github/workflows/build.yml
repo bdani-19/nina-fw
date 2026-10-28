@@ -19,8 +19,8 @@ jobs:
 
       - name: Download ESP32 Toolchain
         run: |
-          wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4436f-5.2.0.tar.gz
-          tar -xzf xtensa-esp32-elf-linux64-1.22.0-80-g6c4436f-5.2.0.tar.gz
+          wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-97-gc752ad5-5.2.0.tar.gz
+          tar -xzf xtensa-esp32-elf-linux64-1.22.0-97-gc752ad5-5.2.0.tar.gz
 
       - name: Clone ESP-IDF v3.3
         run: |
