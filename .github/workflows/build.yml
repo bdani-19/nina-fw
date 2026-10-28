@@ -12,8 +12,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Firmware with Docker
-        run: docker run --rm -v $(pwd):/arduino-nina-fw -w /arduino-nina-fw arduino/nina-fw make
+      - name: Build Docker Image
+        run: docker build -t nina-fw-builder .
+
+      - name: Compile Firmware inside Docker
+        run: docker run --rm -v $(pwd):/arduino-nina-fw -w /arduino-nina-fw nina-fw-builder make
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
